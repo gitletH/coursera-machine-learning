@@ -80,7 +80,7 @@ for i = 1:num_labels
   J += sum(-curr_y .* log(h) - (1 - curr_y) .* log(1 - h));
 endfor
 
-J /= num_labels;
+J /= m;
 
 
 
