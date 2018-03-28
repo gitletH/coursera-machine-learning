@@ -62,7 +62,25 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Forawrd propagation
+input_layer = [ones(size(X, 1), 1), X];
 
+hidden_layer = sigmoid(input_layer * Theta1');
+hidden_layer = [ones(size(hidden_layer, 1), 1), hidden_layer];
+
+output_layer = sigmoid(hidden_layer * Theta2');
+
+
+
+
+% compare each h with its thing and sum it up
+for i = 1:num_labels
+  h = output_layer(:,i);
+  curr_y = (y == i);
+  J += sum(-curr_y .* log(h) - (1 - curr_y) .* log(1 - h));
+endfor
+
+J /= num_labels;
 
 
 
