@@ -94,10 +94,11 @@ delta_3 = output_layer - y_logical;
 
 delta_2 = (delta_3 * Theta2(:,2:end)) .* sigmoidGradient(z2);
 Theta2_grad = 1 / m * (delta_3' * hidden_layer);
+Theta2_grad += lambda / m * [zeros(size(Theta2, 1), 1), Theta2(:,2:end)];
 
 delta_1 = (delta_2 * Theta1(:,2:end)) .* sigmoidGradient(X);
 Theta1_grad = 1 / m * (delta_2' * input_layer);
-
+Theta1_grad += lambda / m * [zeros(size(Theta1, 1), 1), Theta1(:,2:end)];
 
 
 % -------------------------------------------------------------
