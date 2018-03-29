@@ -65,10 +65,12 @@ Theta2_grad = zeros(size(Theta2));
 % Forawrd propagation
 input_layer = [ones(size(X, 1), 1), X];
 
-hidden_layer = sigmoid(input_layer * Theta1');
+z2 = input_layer * Theta1';
+hidden_layer = sigmoid(z2);
 hidden_layer = [ones(size(hidden_layer, 1), 1), hidden_layer];
 
-output_layer = sigmoid(hidden_layer * Theta2');
+z3 = hidden_layer * Theta2';
+output_layer = sigmoid(z3);
 
 #{ % unvectorized implementation
 for i = 1:num_labels
@@ -88,10 +90,15 @@ J += lambda / (2 * m) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end
 
 
 % back propagation
+delta_3 = output_layer - y_logical;
 
+delta_2 = (delta_3 * Theta2(:,2:end))(:,2:end) .* sigmoidGradient(z2);
+%delta_2 = delta_2(:,2:end);
+Theta2_grad = 1 / m * (delta_2 + delta_3 * hidden_layer');
 
-
-
+delta_1 = Theta1' * delta_2(:,2:end) .* sigmoidGradient(X(:,2:end));
+%delta_1 = delta_1(2:end);
+Theta1_grad = 1 / m * (delta_1 + delta_2 * X');
 
 % -------------------------------------------------------------
 
