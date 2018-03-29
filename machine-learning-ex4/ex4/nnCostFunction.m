@@ -92,13 +92,13 @@ J += lambda / (2 * m) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end
 % back propagation
 delta_3 = output_layer - y_logical;
 
-delta_2 = (delta_3 * Theta2(:,2:end))(:,2:end) .* sigmoidGradient(z2);
-%delta_2 = delta_2(:,2:end);
-Theta2_grad = 1 / m * (delta_2 + delta_3 * hidden_layer');
+delta_2 = (delta_3 * Theta2(:,2:end)) .* sigmoidGradient(z2);
+Theta2_grad = 1 / m * (delta_3' * hidden_layer);
 
-delta_1 = Theta1' * delta_2(:,2:end) .* sigmoidGradient(X(:,2:end));
-%delta_1 = delta_1(2:end);
-Theta1_grad = 1 / m * (delta_1 + delta_2 * X');
+delta_1 = (delta_2 * Theta1(:,2:end)) .* sigmoidGradient(X);
+Theta1_grad = 1 / m * (delta_2' * input_layer);
+
+
 
 % -------------------------------------------------------------
 
