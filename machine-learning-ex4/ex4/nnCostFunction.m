@@ -70,29 +70,24 @@ hidden_layer = [ones(size(hidden_layer, 1), 1), hidden_layer];
 
 output_layer = sigmoid(hidden_layer * Theta2');
 
-
-
-
-% compare each h with its thing and sum it up
+#{ % unvectorized implementation
 for i = 1:num_labels
   h = output_layer(:,i);
   curr_y = (y == i);
   J += sum(-curr_y .* log(h) - (1 - curr_y) .* log(1 - h));
 endfor
-
 J /= m;
+#}
+
+y_logical = repmat(1:num_labels, size(y, 1), 1) == y; % logical array for y
+h = output_layer;
+J = 1 / m * sum(sum(-y_logical .* log(h) - (1 - y_logical) .* log(1 - h)));
+
+% regularize
+J += lambda / (2 * m) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2))); 
 
 
-
-
-
-
-
-
-
-
-
-
+% back propagation
 
 
 
