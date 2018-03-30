@@ -15,10 +15,9 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
-
-
-
-
+power_matrix = repmat(1:p, size(X, 1), 1);
+X_poly = repmat(X, 1, p);
+X_poly .^= power_matrix;
 
 % =========================================================================
 
