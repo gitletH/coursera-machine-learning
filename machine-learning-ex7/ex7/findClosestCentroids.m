@@ -20,11 +20,12 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+m = size(X, 1);
 
-
-
-
-
+for i=1:m
+  distant = sum((repmat(X(i,:), K, 1) - centroids) .^ 2, 2);
+  [max_val, idx(i)] = min(distant);  
+endfor  
 
 
 % =============================================================
